@@ -1,5 +1,6 @@
 # Secrets
 *.gpg
+gradle.properties
 
 # Extras
 .idea/
