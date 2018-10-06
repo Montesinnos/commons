@@ -48,6 +48,7 @@ class FileUtilsTest {
     @Test
     void getSizeTest() {
         assertEquals(20, FileUtils.getSize(path.resolve("size").resolve("1.txt")), 5);
+        assertEquals(20, FileUtils.getSize(path.resolve("size").resolve("1.txt").toString()), 5);
         assertEquals(40, FileUtils.getSize(path.resolve("size")), 5);
     }
 }

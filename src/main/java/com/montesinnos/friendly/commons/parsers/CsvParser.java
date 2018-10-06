@@ -12,6 +12,9 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import static com.montesinnos.friendly.commons.file.TextFileUtils.CHARSET;
@@ -35,5 +38,9 @@ public class CsvParser {
         }
 
         return json;
+    }
+
+    public static List<String> split(final String line) {
+        return Arrays.asList(line.split(",\\s*(?=([^\"]*\"[^\"]*\")*[^\"]*$)"));
     }
 }

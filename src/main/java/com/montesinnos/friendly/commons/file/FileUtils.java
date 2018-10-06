@@ -127,6 +127,12 @@ public class FileUtils {
         return getSize(Paths.get(path));
     }
 
+    /**
+     * Gets the size of a file, or all the files in a directory
+     *
+     * @param path to file or directory
+     * @return byte count
+     */
     public static long getSize(final Path path) {
         return getFiles(path)
                 .stream()
@@ -142,11 +148,22 @@ public class FileUtils {
                 .sum();
     }
 
+    /**
+     * Checks if the path exists
+     *
+     * @param path file or directory to verify
+     * @return true if file exists
+     */
     public static boolean exists(final Path path) {
         return Files.exists(path);
     }
 
-
+    /**
+     * Creates a directory (and every parent folder necessary)
+     *
+     * @param path to be created
+     * @return the path created
+     */
     public static Path createDir(final Path path) {
         try {
             return Files.createDirectories(path);

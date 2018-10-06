@@ -8,10 +8,10 @@ import java.security.NoSuchAlgorithmException;
 public class CryptoUtils {
     public static String md5(final String message) {
         try {
-            MessageDigest md5 = MessageDigest.getInstance("MD5");
+            final MessageDigest md5 = MessageDigest.getInstance("MD5");
             md5.update(StandardCharsets.UTF_8.encode(message));
             return String.format("%032x", new BigInteger(1, md5.digest()));
-        } catch (NoSuchAlgorithmException e) {
+        } catch (final NoSuchAlgorithmException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
