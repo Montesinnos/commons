@@ -86,7 +86,5 @@ public class JsonUtils {
         }
         return jsonNode.getNodeType().toString();
     }
-
-
 }
 
