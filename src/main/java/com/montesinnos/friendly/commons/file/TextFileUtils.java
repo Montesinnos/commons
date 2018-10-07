@@ -87,16 +87,20 @@ public class TextFileUtils {
         return countLinesFromAllFiles(path, "");
     }
 
-
     public static long countNonBlankLines(final Path path) {
-        try {
-            return Files.lines(path)
-                    .filter(Strings::isNotBlank)
-                    .count();
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
+        return FileUtils
+                .getFiles(path)
+                .stream()
+                .flatMap(x -> {
+                    try {
+                        return Files.lines(x);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    return Stream.empty();
+                })
+                .filter(Strings::isNotBlank)
+                .count();
     }
 
     public static Path write(final Path path, final String string) {

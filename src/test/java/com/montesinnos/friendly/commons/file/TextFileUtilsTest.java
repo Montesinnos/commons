@@ -38,8 +38,14 @@ class TextFileUtilsTest {
     }
 
     @Test
+    void countNonBlankLinesTest() {
+        assertEquals(40, TextFileUtils.countNonBlankLines(path.resolve("count")));
+    }
+
+    @Test
     void countLinesTest() {
         assertEquals(10, TextFileUtils.countLines(path.resolve("count").resolve("1.txt")));
+        assertEquals(10, TextFileUtils.countLines(path.resolve("count").resolve("1.txt").toString()));
     }
 
     @Test
