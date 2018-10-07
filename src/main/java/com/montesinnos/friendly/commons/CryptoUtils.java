@@ -6,6 +6,11 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class CryptoUtils {
+    /**
+     * Crypto-Encode a string as MD5
+     * @param message string
+     * @return MD5 String
+     */
     public static String md5(final String message) {
         try {
             final MessageDigest md5 = MessageDigest.getInstance("MD5");
