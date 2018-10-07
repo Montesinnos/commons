@@ -29,12 +29,12 @@ class CsvParserTest {
                 .contains("id")
                 .contains("name")
                 .contains("person")
-                .contains("\"number\"")
-                .contains("\"negative_number\"")
+                .contains("number")
+                .contains("negative_number")
                 .contains("float")
-                .contains("\"other number\"")
+                .contains("other number")
                 .contains("city")
-                .contains("\"other name\"")
-                .contains("\"last float\"");
+                .contains("other name")
+                .contains("last float");
     }
 }

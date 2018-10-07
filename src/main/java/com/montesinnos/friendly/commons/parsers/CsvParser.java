@@ -6,16 +6,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
+import com.google.common.base.CharMatcher;
 import com.montesinnos.friendly.commons.file.FileUtils;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.montesinnos.friendly.commons.file.TextFileUtils.CHARSET;
 
@@ -36,11 +37,12 @@ public class CsvParser {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return json;
     }
 
     public static List<String> split(final String line) {
-        return Arrays.asList(line.split(",\\s*(?=([^\"]*\"[^\"]*\")*[^\"]*$)"));
+        return Arrays.stream(line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)"))
+                .map(x -> CharMatcher.anyOf("\" ").trimFrom(x))
+                .collect(Collectors.toList());
     }
 }

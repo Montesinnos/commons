@@ -47,16 +47,4 @@ class TextFileUtilsTest {
         assertEquals(10, TextFileUtils.countLines(path.resolve("count").resolve("1.txt")));
         assertEquals(10, TextFileUtils.countLines(path.resolve("count").resolve("1.txt").toString()));
     }
-
-    @Test
-    void countLines1() {
-    }
-
-    @Test
-    void countNonBlankLines() {
-    }
-
-    @Test
-    void write() {
-    }
 }

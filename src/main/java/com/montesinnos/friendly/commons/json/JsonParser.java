@@ -4,9 +4,9 @@ import java.io.IOException;
 
 public class JsonParser<T> {
 
-    final Class<T> typeParameterClass;
+    private final Class<T> typeParameterClass;
 
-    public JsonParser(Class<T> typeParameterClass) {
+    public JsonParser(final Class<T> typeParameterClass) {
         this.typeParameterClass = typeParameterClass;
     }
 

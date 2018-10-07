@@ -9,7 +9,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ResourceUtilsTest {
-
     @Test
     void readLinesTest() {
         final List<String> lines = ResourceUtils.readLines("resources/readlines.txt");
@@ -25,6 +24,13 @@ class ResourceUtilsTest {
     @Test
     void getPathTest() {
         final Path path = ResourceUtils.getPath("resources/path.txt");
+        assertTrue(path.toFile().exists());
+        assertTrue(path.toString().endsWith("resources/path.txt"));
+    }
+
+    @Test
+    void getPathFromClassLoaderTest() {
+        final Path path = ResourceUtils.getPathFromClassLoader("resources/path.txt");
         assertTrue(path.toFile().exists());
     }
 }
