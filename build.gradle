@@ -88,14 +88,19 @@ artifacts {
     archives javadocJar, sourcesJar
 }
 
-signing {
-    sign configurations.archives
-}
-
 //Uses this to push data up to Maven
 task cleanBuildPublish(type: GradleBuild) {
     tasks = ['clean', 'build' , 'uploadArchives']
 }
+
+signing {
+    sign publishing.publications.mavenJava
+}
+
+//This way it signs all the time, not only during publish
+//signing {
+//    sign configurations.archives
+//}
 
 uploadArchives {
     repositories {
