@@ -8,6 +8,7 @@ public class DateUtils {
 
     /**
      * Prints the date provided as yyyy-MM-dd
+     *
      * @param date to be printed
      * @return String
      */
@@ -19,6 +20,7 @@ public class DateUtils {
 
     /**
      * Prints the current date as yyyy-MM-dd
+     *
      * @return String
      */
     public static String getTimestamp() {

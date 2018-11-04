@@ -8,6 +8,7 @@ import java.security.NoSuchAlgorithmException;
 public class CryptoUtils {
     /**
      * Crypto-Encode a string as MD5
+     *
      * @param message string
      * @return MD5 String
      */

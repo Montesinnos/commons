@@ -13,6 +13,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -21,9 +22,14 @@ import java.util.stream.Collectors;
 import static com.montesinnos.friendly.commons.file.TextFileUtils.CHARSET;
 
 public class CsvParser {
+    public static Path toJson(final String csv, final String json) {
+        return toJson(Paths.get(csv), Paths.get(json));
+    }
+
     public static Path toJson(final Path csv, final Path json) {
         FileUtils.createParent(json);
-        final ObjectWriter writer = new ObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL).writer();
+        final ObjectWriter writer = new ObjectMapper()
+                .setSerializationInclusion(JsonInclude.Include.NON_EMPTY).writer();
 
         final CsvSchema csvSchema = CsvSchema.builder().setUseHeader(true).build();
         final CsvMapper csvMapper = new CsvMapper();

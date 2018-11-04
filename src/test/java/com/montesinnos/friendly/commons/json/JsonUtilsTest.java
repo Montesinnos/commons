@@ -56,4 +56,55 @@ class JsonUtilsTest {
         assertEquals("NUMBER", JsonUtils.getFieldType(testJson, "review_count"));
         assertEquals("STRING", JsonUtils.getFieldType(testJson, "phone_number"));
     }
+
+    @Test
+    void appendJsonStringTest() {
+        assertEquals("{\"field\": 123, \"field2\": 123}", JsonUtils.appendJsonString("{\"field\": 123 } ", "{\"field2\": 123 } "));
+    }
+
+    @Test
+    void removeOuterParenthesesTest() {
+        assertEquals("\"field\": 123", JsonUtils.removeOuterParentheses("{ \"field\": 123 } "));
+    }
+
+    @Test
+    void mergeShallowTest() {
+        final String json1 = "{\"Key1\": \"Value1\", \"Key2\": \"Value2\"}";
+        final String json2 = "{\"Key3\": \"Value3\", \"Key4\": \"Value4\"}";
+        assertEquals("{\"Key1\":\"Value1\",\"Key2\":\"Value2\",\"Key3\":\"Value3\",\"Key4\":\"Value4\"}", JsonUtils.mergeShallow(json1, json2));
+    }
+
+    @Test
+    void mergeTest() {
+        final String jsonDeep1 = "{\n" +
+                "  \"doc\": {\n" +
+                "    \"properties\": {\n" +
+                "      \"address\": {\n" +
+                "        \"properties\": {\n" +
+                "          \"city\": {\n" +
+                "            \"type\": \"keyword\"\n" +
+                "          }\n" +
+                "        }\n" +
+                "      }\n" +
+                "    }\n" +
+                "  }\n" +
+                "}";
+        final String jsonDeep2 = "{\n" +
+                "  \"doc\": {\n" +
+                "    \"properties\": {\n" +
+                "      \"source_name\": {\n" +
+                "        \"type\": \"keyword\"\n" +
+                "      },\n" +
+                "      \"address\": {\n" +
+                "        \"type\": \"keyword\"\n" +
+                "      },\n" +
+                "      \"checkins\": {\n" +
+                "        \"type\": \"long\"\n" +
+                "      }\n" +
+                "    }\n" +
+                "  }\n" +
+                "}";
+        assertEquals("{\"doc\":{\"properties\":{\"address\":{\"properties\":{\"city\":{\"type\":\"keyword\"}},\"type\":\"keyword\"},\"source_name\":{\"type\":\"keyword\"},\"checkins\":{\"type\":\"long\"}}}}",
+                JsonUtils.merge(jsonDeep1, jsonDeep2));
+    }
 }

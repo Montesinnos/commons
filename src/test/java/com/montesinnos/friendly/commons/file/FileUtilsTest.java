@@ -11,8 +11,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class FileUtilsTest {
     final Path path = ResourceUtils.getPath("file").resolve("fileutils");
 
-
-
     @Test
     void getFilesTest() {
         final Path path = this.path.resolve("getfiles");
@@ -39,6 +37,13 @@ class FileUtilsTest {
     void getFileNameWithNewExtensionTest() {
         assertEquals("file.json", FileUtils.getFileNameWithNewExtension("file.txt", "json"));
         assertEquals(Paths.get("file.json"), FileUtils.getFileNameWithNewExtension(Paths.get("file.txt"), "json"));
+    }
+
+    @Test
+    void getFileNameWithoutExtensionTest() {
+        assertEquals("file", FileUtils.getFileNameWithoutExtension("file.txt"));
+        assertEquals("file.txt", FileUtils.getFileNameWithoutExtension("file.txt.zip"));
+        assertEquals("file.txt", FileUtils.getFileNameWithoutExtension(Paths.get("file.txt.zip")));
     }
 
     @Test
