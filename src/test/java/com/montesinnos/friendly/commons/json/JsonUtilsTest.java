@@ -4,14 +4,16 @@ import com.montesinnos.friendly.commons.resources.ResourceUtils;
 import org.junit.jupiter.api.Test;
 
 import java.nio.file.Path;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class JsonUtilsTest {
     final Path path = ResourceUtils.getPath("json");
-    final String testJson = "{\"phone_number\": \"+1 323-462-5890\", \"crawl_date\": \"2017-06-19 16:16:42.585850\", \"review_count\": 504}";
+    final String testJson = "{\"phone_number\": \"+1 323-462-5890\", \"crawl_date\": \"2017-06-19 16:16:42.585850\", \"review_count\": 504,\"properties\": {\"id\": {\"type\": \"keyword\"}}}";
 
     @Test
     void toJsonTest() {
@@ -106,5 +108,25 @@ class JsonUtilsTest {
                 "}";
         assertEquals("{\"doc\":{\"properties\":{\"address\":{\"properties\":{\"city\":{\"type\":\"keyword\"}},\"type\":\"keyword\"},\"source_name\":{\"type\":\"keyword\"},\"checkins\":{\"type\":\"long\"}}}}",
                 JsonUtils.merge(jsonDeep1, jsonDeep2));
+    }
+
+    @Test
+    void getFieldTest() {
+        assertEquals(
+                Optional.of("+1 323-462-5890"),
+                JsonUtils.getField(testJson, "phone_number"));
+        assertFalse(
+                JsonUtils.getField(testJson, "doesn't exist").isPresent());
+
+        //Using hierarchy
+        assertEquals(
+                Optional.of(""),
+                JsonUtils.getField(testJson, new String[]{"properties"}));
+
+        assertEquals(
+                Optional.of("keyword"),
+                JsonUtils.getField(testJson, new String[]{"properties", "id", "type"}));
+        assertFalse(
+                JsonUtils.getField(testJson, new String[]{"properties", "doesn't exist"}).isPresent());
     }
 }

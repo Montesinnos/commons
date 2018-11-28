@@ -15,6 +15,7 @@ import java.nio.file.Path;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -28,6 +29,41 @@ public class JsonUtils {
         try {
             return objectMapper.writeValueAsString(object);
         } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Parses a Json and return a field as String
+     *
+     * @param json  string to be parsed
+     * @param field name to be returned
+     * @return String with the value of the field
+     */
+    public static Optional<String> getField(final String json, final String field) {
+        try {
+            final JsonNode jsonNode = objectMapper.readTree(json).get(field);
+            if (jsonNode == null) {
+                return Optional.empty();
+            } else {
+                return Optional.ofNullable(jsonNode.asText());
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static Optional<String> getField(final String json, final String[] fieldTree) {
+        try {
+            JsonNode jsonNode = objectMapper.readTree(json);
+            for (final String field : fieldTree) {
+                jsonNode = jsonNode.get(field);
+                if (jsonNode == null) {
+                    return Optional.empty();
+                }
+            }
+            return Optional.ofNullable(jsonNode.asText());
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }

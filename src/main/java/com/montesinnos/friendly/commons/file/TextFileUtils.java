@@ -14,6 +14,7 @@ import java.util.stream.Stream;
 
 public class TextFileUtils {
     public final static Charset CHARSET = StandardCharsets.UTF_8;
+    public final static String LINE_SEPARATOR = "\n";
 
     public static String read(final String path) {
         return read(Paths.get(path));
