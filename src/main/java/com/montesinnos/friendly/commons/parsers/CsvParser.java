@@ -22,10 +22,24 @@ import java.util.stream.Collectors;
 import static com.montesinnos.friendly.commons.file.TextFileUtils.CHARSET;
 
 public class CsvParser {
+    /**
+     * Converts a CSV file to a Json file
+     *
+     * @param csv  path to the CSV
+     * @param json path to the output Json file
+     * @return the output path (same as input)
+     */
     public static Path toJson(final String csv, final String json) {
         return toJson(Paths.get(csv), Paths.get(json));
     }
 
+    /**
+     * Converts a CSV file to a Json file
+     *
+     * @param csv  path to the CSV
+     * @param json path to the output Json file
+     * @return the output path (same as input)
+     */
     public static Path toJson(final Path csv, final Path json) {
         FileUtils.createParent(json);
         final ObjectWriter writer = new ObjectMapper()
@@ -46,6 +60,12 @@ public class CsvParser {
         return json;
     }
 
+    /**
+     * Splits a CSV string in a list of values
+     *
+     * @param line CSV String to be split
+     * @return new List of values
+     */
     public static List<String> split(final String line) {
         return Arrays.stream(line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)"))
                 .map(x -> CharMatcher.anyOf("\" ").trimFrom(x))
