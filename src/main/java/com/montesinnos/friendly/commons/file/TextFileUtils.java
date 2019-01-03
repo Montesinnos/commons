@@ -10,6 +10,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class TextFileUtils {
@@ -62,6 +65,10 @@ public class TextFileUtils {
         }
     }
 
+    public static Stream<String> streamAllLines(final Path path) {
+        return FileUtils.getFilesStream(path).flatMap(TextFileUtils::streamLines);
+    }
+
     public static long countLines(final String path) {
         return countLines(Paths.get(path));
     }
@@ -78,8 +85,7 @@ public class TextFileUtils {
 
     public static long countLinesFromAllFiles(final Path path, final String extension) {
         return FileUtils
-                .getFiles(path, extension)
-                .stream()
+                .getFilesStream(path, extension)
                 .mapToLong(TextFileUtils::countLines)
                 .sum();
     }
@@ -90,8 +96,7 @@ public class TextFileUtils {
 
     public static long countNonBlankLines(final Path path) {
         return FileUtils
-                .getFiles(path)
-                .stream()
+                .getFilesStream(path)
                 .flatMap(x -> {
                     try {
                         return Files.lines(x);
@@ -114,4 +119,48 @@ public class TextFileUtils {
         }
         return path;
     }
+
+    public static Path replaceInFiles(final Path path, final Path output, final Map<String, String> replacements) {
+        FileUtils.getFilesStream(path)
+                .forEach(file -> {
+                    System.out.println(file);
+                    replaceInFile(file,
+                            output.resolve(file.getFileName().toString()),
+                            replacements);
+                });
+        return output;
+    }
+
+    public static Path replaceInFile(final Path path, final Path output, final Map<String, String> replacements) {
+
+        final Map<Pattern, String> compiledReplacement = replacements
+                .entrySet()
+                .stream()
+                .collect(Collectors.toMap(
+                        entry -> Pattern.compile(entry.getKey(), Pattern.CASE_INSENSITIVE),
+                        Map.Entry::getValue));
+
+        try (final BufferedWriter bufferedWriter = Files.newBufferedWriter(output, CHARSET)) {
+            streamLines(path)
+                    .forEach(line ->
+                    {
+                        try {
+                            String replaced = line;
+                            for (Map.Entry<Pattern, String> entry : compiledReplacement.entrySet()) {
+                                replaced = entry.getKey().matcher(replaced).replaceAll(entry.getValue());
+                            }
+                            bufferedWriter.write(replaced);
+                            bufferedWriter.newLine();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    });
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        return output;
+    }
+
+
 }

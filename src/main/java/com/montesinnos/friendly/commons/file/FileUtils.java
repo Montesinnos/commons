@@ -1,5 +1,6 @@
 package com.montesinnos.friendly.commons.file;
 
+import com.google.common.io.RecursiveDeleteOption;
 import org.apache.logging.log4j.util.Strings;
 
 import java.io.IOException;
@@ -8,6 +9,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class FileUtils {
     /**
@@ -28,20 +30,42 @@ public class FileUtils {
      *
      * @param path      to be walked
      * @param extension to be filtered. Add a '.' to have it exact
-     * @return Seq of file names
+     * @return List of file paths
      */
     public static List<Path> getFiles(final Path path, final String extension) {
+        return getFilesStream(path, extension)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Walks through the directory and returns all files, including those in subdirectories.
+     *
+     * @param path to be walked
+     * @return Stream of file paths
+     */
+    public static Stream<Path> getFilesStream(final Path path) {
         try {
             return Files.walk(path)
                     .filter(Files::isRegularFile)
                     .filter(x -> !x.getFileName().toString().startsWith("."))
-                    .filter(x -> !x.toString().startsWith("."))
-                    .filter(x -> Strings.isBlank(extension) || x.toString().endsWith(extension))
-                    .collect(Collectors.toList());
+                    .filter(x -> !x.toString().startsWith("."));
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * Walks through the directory and returns all files, including those in subdirectories.
+     * You can pass an extension filter
+     *
+     * @param path      to be walked
+     * @param extension to be filtered. Add a '.' to have it exact
+     * @return Stream of file paths
+     */
+    public static Stream<Path> getFilesStream(final Path path, final String extension) {
+        return getFilesStream(path)
+                .filter(x -> Strings.isBlank(extension) || x.toString().endsWith(extension));
     }
 
     /**
@@ -175,5 +199,17 @@ public class FileUtils {
 
     public static Path createParent(final Path path) {
         return createDir(path.getParent());
+    }
+
+    public static void delete(final Path path) {
+        try {
+            com.google.common.io.MoreFiles.deleteRecursively(
+                    path,
+                    RecursiveDeleteOption.ALLOW_INSECURE
+            );
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 }

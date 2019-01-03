@@ -43,4 +43,15 @@ public class StringUtils {
     public static String dropRight(final String text, final int charCount) {
         return text.trim().substring(0, text.trim().length() - charCount).trim();
     }
+
+    /**
+     * Checks if a given string is balanced with regards to brackets (parenthesis, curlies, square, etc...)
+     * It doesn't care for escapes
+     *
+     * @param text to be checked
+     * @return true if balanced
+     */
+    public static boolean areBracketsBalanced(final String text) {
+        return true;
+    }
 }

@@ -1,14 +1,29 @@
 package com.montesinnos.friendly.commons.file;
 
 import com.montesinnos.friendly.commons.resources.ResourceUtils;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TextFileUtilsTest {
+    private static Path outputDir;
     final Path path = ResourceUtils.getPath("file").resolve("textfileutils");
+
+    @BeforeAll
+    static void setUp() {
+        outputDir = FileUtils.createTempDir("test");
+    }
+
+    @AfterAll
+    static void tearDown() {
+        FileUtils.delete(outputDir);
+    }
 
     @Test
     void readTest() {
@@ -46,5 +61,22 @@ class TextFileUtilsTest {
     void countLinesTest() {
         assertEquals(10, TextFileUtils.countLines(path.resolve("count").resolve("1.txt")));
         assertEquals(10, TextFileUtils.countLines(path.resolve("count").resolve("1.txt").toString()));
+    }
+
+    @Test
+    void replaceInFileTest() {
+        final Path input = path.resolve("replace");
+        final Path output = outputDir.resolve("replace");
+        FileUtils.createDir(output);
+
+        final Map<String, String> map = new HashMap<>();
+        map.put("a", "replacedA");
+        map.put("bb+", "replacedB");
+        map.put("findme", "!!FOUND!!");
+        TextFileUtils.replaceInFiles(input, output, map);
+        assertEquals(3, FileUtils.getFilesStream(output).count());
+        assertEquals(1, TextFileUtils.streamAllLines(output).filter(x -> x.contains("!!FOUND!!")).count());
+
+        FileUtils.delete(output);
     }
 }

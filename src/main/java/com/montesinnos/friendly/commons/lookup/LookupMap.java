@@ -1,5 +1,6 @@
 package com.montesinnos.friendly.commons.lookup;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -8,13 +9,18 @@ import java.util.Optional;
  * Handy library to create a look up with some basic cleaning to improve the match rate
  * In the future, this should be configurable so users can decide which cleaning should happen
  */
-public class LookupMap {
+public class LookupMap implements Serializable {
     private final HashMap<String, String> map = new HashMap<>();
 
     protected LookupMap(final Map<String, String> input) {
+        add(input);
+    }
+
+    public int add(final Map<String, String> input) {
         for (final Map.Entry<String, String> entry : input.entrySet()) {
             map.put(keyNormalizer(entry.getKey()), entry.getValue());
         }
+        return map.size();
     }
 
     /**

@@ -19,6 +19,7 @@ class FileUtilsTest {
         assertEquals(1, FileUtils.getFiles(path, "json").size());
         assertEquals(1, FileUtils.getFiles(path, ".json").size());
         assertEquals(4, FileUtils.getFiles(path, "").size());
+        assertEquals(4, FileUtils.getFilesStream(path).count());
     }
 
     @Test

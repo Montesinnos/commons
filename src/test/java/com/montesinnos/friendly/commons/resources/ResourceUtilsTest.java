@@ -2,6 +2,8 @@ package com.montesinnos.friendly.commons.resources;
 
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+import java.net.URL;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -32,5 +34,12 @@ class ResourceUtilsTest {
     void getPathFromClassLoaderTest() {
         final Path path = ResourceUtils.getPathFromClassLoader("resources/path.txt");
         assertTrue(path.toFile().exists());
+    }
+
+    @Test
+    void getResourceUrlTest() {
+        final URL url = ResourceUtils.getResourceUrl("resources/path.txt");
+        assertTrue(url.toString().endsWith("resources/path.txt"));
+        assertTrue(new File(url.getPath()).exists());
     }
 }
