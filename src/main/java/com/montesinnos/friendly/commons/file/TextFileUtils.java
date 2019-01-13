@@ -120,7 +120,16 @@ public class TextFileUtils {
         return path;
     }
 
+    /**
+     * Replaces all occurrences of provided Strings in all the files in a folder
+     *
+     * @param path         Input folder
+     * @param output       Output folder
+     * @param replacements Map of (Find -- Replace) strings
+     * @return Output folder path
+     */
     public static Path replaceInFiles(final Path path, final Path output, final Map<String, String> replacements) {
+        FileUtils.createDir(output);
         FileUtils.getFilesStream(path)
                 .forEach(file -> {
                     System.out.println(file);
@@ -131,6 +140,15 @@ public class TextFileUtils {
         return output;
     }
 
+
+    /**
+     * Replaces all occurrences of provided Strings in a single file
+     *
+     * @param path         Input file
+     * @param output       Output file
+     * @param replacements Map of (Find -- Replace) strings
+     * @return Output file path
+     */
     public static Path replaceInFile(final Path path, final Path output, final Map<String, String> replacements) {
 
         final Map<Pattern, String> compiledReplacement = replacements
