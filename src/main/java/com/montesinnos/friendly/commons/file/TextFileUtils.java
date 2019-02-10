@@ -109,15 +109,56 @@ public class TextFileUtils {
                 .count();
     }
 
-    public static Path write(final Path path, final String string) {
-        try (final BufferedWriter bufferedWriter = Files.newBufferedWriter(path, CHARSET)) {
+    public static Path write(final Path output, final String string) {
+        FileUtils.createDir(output.getParent());
+        try (final BufferedWriter bufferedWriter = Files.newBufferedWriter(output, CHARSET)) {
             bufferedWriter.write(string);
             bufferedWriter.flush();
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
-        return path;
+        return output;
+    }
+
+
+    /**
+     * Reads the contents of all provided files and write to a single file
+     * Skipping blanks
+     *
+     * @param output new file to be written. Will be overwritten
+     * @param inputs all paths to be read from
+     * @return the output path
+     */
+    public static Path writeFilesIntoOne(final Path output, final List<Path> inputs) {
+        FileUtils.createDir(output.getParent());
+        try (final BufferedWriter bufferedWriter = Files.newBufferedWriter(output, CHARSET)) {
+            inputs.forEach(in ->
+            {
+                streamLines(in)
+                        .filter(Strings::isNotBlank)
+                        .forEach(line ->
+                        {
+                            try {
+                                bufferedWriter.write(line);
+                                bufferedWriter.newLine();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                                throw new RuntimeException(e);
+                            }
+                        });
+                try {
+                    bufferedWriter.flush();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    throw new RuntimeException(e);
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        return output;
     }
 
     /**
