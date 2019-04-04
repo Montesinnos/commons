@@ -21,4 +21,14 @@ class StringReplacerTest {
         assertEquals("The Penny is a PUPPY", replacer.replace("penny is a dog"));
         assertEquals("ThePenny is tiny", replacer.replace("ThePenny is tiny"));
     }
+
+    @Test
+    void replaceWordTest() {
+        final Map<String, String> map = new HashMap<>();
+        map.put("penny", "The Penny");
+        map.put("DOG", "PUPPY");
+        final StringReplacer replacer = new StringReplacer(map);
+        assertEquals("", replacer.replaceWord(""));
+        assertEquals("The Penny", replacer.replaceWord("penny"));
+    }
 }

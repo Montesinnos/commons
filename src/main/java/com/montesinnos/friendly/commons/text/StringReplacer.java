@@ -28,7 +28,17 @@ public class StringReplacer {
      */
     public String replace(final String text) {
         return Arrays.stream(text.split(" "))
-                .map(word -> replacements.getOrDefault(word.toUpperCase(), word))
+                .map(this::replaceWord)
                 .collect(Collectors.joining(" "));
+    }
+
+    /**
+     * Replaces the provided word in the text
+     *
+     * @param word to be changed
+     * @return new String with word replaced
+     */
+    public String replaceWord(final String word) {
+        return replacements.getOrDefault(word.toUpperCase(), word);
     }
 }
