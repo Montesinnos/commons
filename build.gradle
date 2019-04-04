@@ -9,7 +9,7 @@ plugins {
 }
 
 group 'com.montesinnos.friendly'
-version '0.1.6-SNAPSHOT'
+version '0.1.8-SNAPSHOT'
 
 sourceCompatibility = 1.8
 
@@ -55,9 +55,6 @@ dependencies {
     // https://mvnrepository.com/artifact/org.junit.platform/junit-platform-launcher
     testCompile group: 'org.junit.platform', name: 'junit-platform-launcher', version: '1.4.0'
 
-
-    // https://bintray.com/sta-szek/maven/pojo-tester/0.7.6
-    testCompile 'pl.pojo:pojo-tester:0.7.6'
     // https://mvnrepository.com/artifact/org.assertj/assertj-core
     testCompile group: 'org.assertj', name: 'assertj-core', version: '3.11.1'
 }
