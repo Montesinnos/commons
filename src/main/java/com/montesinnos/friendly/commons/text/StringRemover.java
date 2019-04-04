@@ -31,11 +31,21 @@ public class StringRemover {
      * Remove the provided words in the text
      *
      * @param text to be changed
-     * @return new String with words replaced
+     * @return new String with provided words removed
      */
     public String remove(final String text) {
         return Arrays.stream(text.split(" "))
-                .filter(word -> !removals.contains(word.toUpperCase()))
+                .filter(word -> !shouldRemove(word))
                 .collect(Collectors.joining(" "));
+    }
+
+    /**
+     * Checks if provided word should be removed
+     *
+     * @param word to be checked
+     * @return true if the word should be removed
+     */
+    public Boolean shouldRemove(final String word) {
+        return removals.contains(word.toUpperCase());
     }
 }
