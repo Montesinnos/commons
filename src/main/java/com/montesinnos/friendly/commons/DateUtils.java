@@ -17,7 +17,6 @@ public class DateUtils {
         return df.format(date);
     }
 
-
     /**
      * Prints the current date as yyyy-MM-dd
      *
@@ -25,5 +24,25 @@ public class DateUtils {
      */
     public static String getTimestamp() {
         return getTimestamp(new Date());
+    }
+
+    /**
+     * Prints the date provided as yyyy-MM-dd-hh-mm-ss-S
+     *
+     * @return String
+     */
+    public static String getVerySpecificTimestamp() {
+        return getVerySpecificTimestamp(new Date());
+    }
+
+    /**
+     * Prints the date provided as yyyy-MM-dd-hh-mm-ss-S
+     *
+     * @param date to be printed
+     * @return String
+     */
+    public static String getVerySpecificTimestamp(final Date date) {
+        final DateFormat df = new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss-S");
+        return df.format(date);
     }
 }

@@ -10,13 +10,14 @@ class DateUtilsTest {
 
     @Test
     void getTimestampTest() {
-        final String timestamp = DateUtils.getTimestamp();
-        assertEquals(10, timestamp.length());
+        assertEquals(10, DateUtils.getTimestamp().length());
+        assertEquals(10, DateUtils.getTimestamp(new Date()).length());
     }
 
     @Test
-    void getTimestampTest2() {
-        final String timestamp = DateUtils.getTimestamp(new Date());
-        assertEquals(10, timestamp.length());
+    void getVerySpecificTimestampTest() {
+        System.out.println( DateUtils.getVerySpecificTimestamp());
+        assertEquals(23, DateUtils.getVerySpecificTimestamp().length());
+        assertEquals(23, DateUtils.getVerySpecificTimestamp(new Date()).length());
     }
 }
