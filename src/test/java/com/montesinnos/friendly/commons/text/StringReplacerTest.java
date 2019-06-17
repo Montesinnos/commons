@@ -14,7 +14,7 @@ class StringReplacerTest {
         final Map<String, String> map = new HashMap<>();
         map.put("penny", "The Penny");
         map.put("DOG", "PUPPY");
-        final StringReplacer replacer = new StringReplacer(map);
+        final StringReplacer replacer = StringReplacer.StringReplacerFactory.create(map);
 
         assertEquals("", replacer.replace(""));
         assertEquals("I walk The Penny everyday", replacer.replace("I walk penny everyday"));
@@ -26,8 +26,11 @@ class StringReplacerTest {
     void replaceWordTest() {
         final Map<String, String> map = new HashMap<>();
         map.put("penny", "The Penny");
+        map.put("Penny", "The Penny");
+        map.put("le pen", "The Penny");
         map.put("DOG", "PUPPY");
-        final StringReplacer replacer = new StringReplacer(map);
+        final StringReplacer replacer = StringReplacer.StringReplacerFactory.create(map);
+
         assertEquals("", replacer.replaceWord(""));
         assertEquals("The Penny", replacer.replaceWord("penny"));
     }
