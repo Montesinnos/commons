@@ -1,6 +1,5 @@
 package com.montesinnos.friendly.commons.lookup;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -11,14 +10,16 @@ import java.util.stream.Stream;
  * In the future, this should be configurable so users can decide which cleaning should happen
  */
 public class LookupMapFactory {
-    private final HashMap<String, String> map = new HashMap<>();
-
     public static LookupMap fromListWithSeparator(final List<String> input, final String separator) {
         return new LookupMap(
                 input.stream()
                         .map(x -> x.split(separator))
                         .filter(x -> x.length > 1)
-                        .collect(Collectors.toMap(x -> x[0], y -> y[1])));
+                        .collect(
+                                Collectors.toMap(
+                                        x -> x[0],
+                                        y -> y[1],
+                                        (s, a) -> s)));
     }
 
     public static LookupMap fromMap(final Map<String, String> input) {
