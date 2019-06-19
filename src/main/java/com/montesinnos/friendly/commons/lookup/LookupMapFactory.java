@@ -32,7 +32,9 @@ public class LookupMapFactory {
                         .flatMap(map -> map.entrySet().stream())
                         .collect(Collectors.toMap(
                                 Map.Entry::getKey,
-                                Map.Entry::getValue)
+                                Map.Entry::getValue,
+                                (s, a) -> s)
+
                         ));
     }
 }
