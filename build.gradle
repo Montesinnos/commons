@@ -9,7 +9,7 @@ plugins {
 }
 
 group 'com.montesinnos.friendly'
-version '0.1.15-SNAPSHOT'
+version '0.1.17-SNAPSHOT'
 
 sourceCompatibility = 1.8
 
