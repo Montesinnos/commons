@@ -36,16 +36,40 @@ public class CsvParser {
     /**
      * Converts a CSV file to a Json file
      *
+     * @param csv       path to the CSV
+     * @param json      path to the output Json file
+     * @param separator char to separate columns. Usually commas
+     * @return the output path (same as input)
+     */
+    public static Path toJson(final String csv, final String json, final char separator) {
+        return toJson(Paths.get(csv), Paths.get(json), separator);
+    }
+
+    /**
+     * Converts a CSV file to a Json file
+     *
      * @param csv  path to the CSV
      * @param json path to the output Json file
      * @return the output path (same as input)
      */
     public static Path toJson(final Path csv, final Path json) {
+        return toJson(csv, json, ',');
+    }
+
+    /**
+     * Converts a CSV file to a Json file
+     *
+     * @param csv       path to the CSV
+     * @param json      path to the output Json file
+     * @param separator char to separate columns. Usually commas
+     * @return the output path (same as input)
+     */
+    public static Path toJson(final Path csv, final Path json, final char separator) {
         FileUtils.createParent(json);
         final ObjectWriter writer = new ObjectMapper()
                 .setSerializationInclusion(JsonInclude.Include.NON_EMPTY).writer();
 
-        final CsvSchema csvSchema = CsvSchema.builder().setUseHeader(true).build();
+        final CsvSchema csvSchema = CsvSchema.builder().setUseHeader(true).setColumnSeparator(separator).build();
         final CsvMapper csvMapper = new CsvMapper();
         try (final BufferedWriter bw = Files.newBufferedWriter(json, CHARSET)) {
             final MappingIterator<Object> it = csvMapper.readerFor(Map.class).with(csvSchema).readValues(csv.toFile());
