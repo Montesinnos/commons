@@ -15,6 +15,12 @@ class DateUtilsTest {
     }
 
     @Test
+    void getTimestampLongTest() {
+        assertEquals(15, DateUtils.getTimestampLong().length());
+        assertEquals(15, DateUtils.getTimestamp(new Date()).length());
+    }
+
+    @Test
     void getVerySpecificTimestampTest() {
         System.out.println( DateUtils.getVerySpecificTimestamp());
         assertEquals(23, DateUtils.getVerySpecificTimestamp().length());
