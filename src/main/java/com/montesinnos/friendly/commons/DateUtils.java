@@ -17,6 +17,27 @@ public class DateUtils {
         return df.format(date);
     }
 
+
+    /**
+     * Prints the date provided as yyyyMMdd_hhmmss
+     *
+     * @param date to be printed
+     * @return String
+     */
+    public static String getTimestampLong(final Date date) {
+        final DateFormat df = new SimpleDateFormat("yyyyMMdd_hhmmss");
+        return df.format(date);
+    }
+
+    /**
+     * Prints the date provided as yyyyMMdd_hhmmss
+     *
+     * @return String
+     */
+    public static String getTimestampLong() {
+        return getTimestampLong(new Date());
+    }
+
     /**
      * Prints the current date as yyyy-MM-dd
      *
