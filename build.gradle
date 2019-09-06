@@ -47,14 +47,14 @@ dependencies {
 
     // TEST
     // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
-    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.5.0-RC1'
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.5.1'
     // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine
-    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.5.0-RC1'
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.5.1'
     // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-params
-    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: '5.5.0-RC1'
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: '5.5.1'
 
     // https://mvnrepository.com/artifact/org.assertj/assertj-core
-    testCompile group: 'org.assertj', name: 'assertj-core', version: '3.11.1'
+    testCompile group: 'org.assertj', name: 'assertj-core', version: '3.13.2'
 }
 
 test {
