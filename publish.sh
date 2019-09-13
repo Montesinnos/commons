@@ -5,5 +5,8 @@ echo "Building and compiling project"
 ./gradlew --refresh-dependencies
 ./gradlew build
 echo "Publishing"
+./gradlew generateMetadataFileForMavenJavaPublication
+./gradlew generatePomFileForMavenJavaPublication
+./gradlew signMavenJavaPublication
 ./gradlew publish
 ./gradlew uploadArchives
